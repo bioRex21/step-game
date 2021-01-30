@@ -959,6 +959,7 @@ ApplicationMain.start = function(stage) {
 			stage.dispatchEvent(new openfl_events_FullScreenEvent("fullScreen",false,false,true,true));
 		}
 	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
 		var e = haxe_Exception.caught(_g).unwrap();
 		stage.__handleError(e);
 	}
@@ -5927,7 +5928,8 @@ ServerComm.prototype = {
 	,connecitonTimeout: null
 	,timer: null
 	,connect: function() {
-		var host = "ws://127.0.0.1";
+		var host = "127.0.0.1";
+		haxe_Log.trace("connectingg...",{ fileName : "source/ServerComm.hx", lineNumber : 40, className : "ServerComm", methodName : "connect"});
 		this.socket.connect(host,9898);
 	}
 	,sendMessage: function(message) {
@@ -5935,7 +5937,7 @@ ServerComm.prototype = {
 		this.socket.flush();
 	}
 	,socketConnect: function(e) {
-		haxe_Log.trace("on socketConnect",{ fileName : "source/ServerComm.hx", lineNumber : 49, className : "ServerComm", methodName : "socketConnect"});
+		haxe_Log.trace("on socketConnect",{ fileName : "source/ServerComm.hx", lineNumber : 50, className : "ServerComm", methodName : "socketConnect"});
 		this.onConnectionSignal.dispatch();
 		if(this.timer != null) {
 			this.timer.stop();
@@ -5948,27 +5950,27 @@ ServerComm.prototype = {
 		if(openfl_utils_ByteArray.get_length(bytes) == 0) {
 			return;
 		}
-		haxe_Log.trace("got bytes:",{ fileName : "source/ServerComm.hx", lineNumber : 61, className : "ServerComm", methodName : "socketData"});
-		haxe_Log.trace(bytes.readUTFBytes(bytes.length - bytes.position),{ fileName : "source/ServerComm.hx", lineNumber : 62, className : "ServerComm", methodName : "socketData"});
+		haxe_Log.trace("got bytes:",{ fileName : "source/ServerComm.hx", lineNumber : 62, className : "ServerComm", methodName : "socketData"});
+		haxe_Log.trace(bytes.readUTFBytes(bytes.length - bytes.position),{ fileName : "source/ServerComm.hx", lineNumber : 63, className : "ServerComm", methodName : "socketData"});
 	}
 	,socketClosed: function(e) {
 		var _gthis = this;
-		haxe_Log.trace("Socket closed by server." + Std.string($bind(e,e.toString)),{ fileName : "source/ServerComm.hx", lineNumber : 66, className : "ServerComm", methodName : "socketClosed"});
+		haxe_Log.trace("Socket closed by server." + Std.string($bind(e,e.toString)),{ fileName : "source/ServerComm.hx", lineNumber : 67, className : "ServerComm", methodName : "socketClosed"});
 		this.onErrorSignal.dispatch("Socket closed by server." + Std.string($bind(e,e.toString)));
 		if(this.timer == null) {
 			this.timer = new haxe_Timer(3000);
 			this.timer.run = function() {
-				haxe_Log.trace("attempt",{ fileName : "source/ServerComm.hx", lineNumber : 72, className : "ServerComm", methodName : "socketClosed"});
+				haxe_Log.trace("attempt",{ fileName : "source/ServerComm.hx", lineNumber : 73, className : "ServerComm", methodName : "socketClosed"});
 				_gthis.connect();
 			};
 		}
 	}
 	,ioErrorHandler: function(e) {
-		haxe_Log.trace("Socket IOError: " + e.toString(),{ fileName : "source/ServerComm.hx", lineNumber : 79, className : "ServerComm", methodName : "ioErrorHandler"});
+		haxe_Log.trace("Socket IOError: " + e.toString(),{ fileName : "source/ServerComm.hx", lineNumber : 80, className : "ServerComm", methodName : "ioErrorHandler"});
 		this.onErrorSignal.dispatch("Socket IOError: " + e.toString());
 	}
 	,securityErrorHandler: function(e) {
-		haxe_Log.trace("Socket SecurityError: " + e.toString(),{ fileName : "source/ServerComm.hx", lineNumber : 84, className : "ServerComm", methodName : "securityErrorHandler"});
+		haxe_Log.trace("Socket SecurityError: " + e.toString(),{ fileName : "source/ServerComm.hx", lineNumber : 85, className : "ServerComm", methodName : "securityErrorHandler"});
 		this.onErrorSignal.dispatch("Socket SecurityError: " + e.toString());
 	}
 	,__class__: ServerComm
